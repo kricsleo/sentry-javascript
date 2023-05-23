@@ -9,9 +9,9 @@
   "engines": {
     "node": ">=8"
   },
-  "main": "build/cjs/index.js",
-  "module": "build/esm/index.js",
-  "types": "build/types/index.d.ts",
+  "main": "build/npm/cjs/index.js",
+  "module": "build/npm/esm/index.js",
+  "types": "build/npm/types/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -30,7 +30,9 @@
   },
   "scripts": {
     "build": "run-p build:transpile build:types",
-    "build:bundle": "rollup --config rollup.bundle.config.js",
+    "build:bundle": "run-p build:bundle:es5 build:bundle:es6",
+    "build:bundle:es5": "JS_VERSION=es5 rollup -c rollup.bundle.config.js",
+    "build:bundle:es6": "JS_VERSION=es6 rollup -c rollup.bundle.config.js",
     "build:dev": "run-p build:transpile build:types",
     "build:transpile": "rollup -c rollup.npm.config.js",
     "build:types": "tsc -p tsconfig.types.json",
@@ -39,7 +41,7 @@
     "build:dev:watch": "run-p build:transpile:watch build:types:watch",
     "build:transpile:watch": "rollup -c rollup.npm.config.js --watch",
     "build:types:watch": "tsc -p tsconfig.types.json --watch",
-    "build:tarball": "ts-node ../../scripts/prepack.ts && npm pack ./build",
+    "build:tarball": "ts-node ../../scripts/prepack.ts && npm pack ./build/npm",
     "circularDepCheck": "madge --circular src/index.ts",
     "clean": "rimraf build coverage sentry-vue-*.tgz",
     "fix": "run-s fix:eslint fix:prettier",
@@ -48,6 +50,12 @@
     "lint": "run-s lint:prettier lint:eslint",
     "lint:eslint": "eslint . --format stylish",
     "lint:prettier": "prettier --check \"{src,test,scripts}/**/**.ts\"",
+    "validate:es5": "es-check es5 'build/bundles/*.es5*.js'",
+    "size:check": "run-p size:check:es5 size:check:es6 size:check:tracing:es5 size:check:tracing:es6",
+    "size:check:es5": "cat build/bundles/bundle.vue.es5.min.js | gzip -9 | wc -c | awk '{$1=$1/1024; print \"ES5:          \",$1,\"kB\";}'",
+    "size:check:es6": "cat build/bundles/bundle.vue.min.js | gzip -9 | wc -c | awk '{$1=$1/1024; print \"ES6:          \",$1,\"kB\";}'",
+    "size:check:tracing:es5": "cat build/bundles/bundle.vue.tracing.es5.min.js | gzip -9 | wc -c | awk '{$1=$1/1024; print \"ES5(tracing): \",$1,\"kB\";}'",
+    "size:check:tracing:es6": "cat build/bundles/bundle.vue.tracing.min.js | gzip -9 | wc -c | awk '{$1=$1/1024; print \"ES6(tracing): \",$1,\"kB\";}'",
     "test": "jest",
     "test:watch": "jest --watch",
     "yalc:publish": "ts-node ../../scripts/prepack.ts && yalc publish build --push"

@@ -21,7 +21,7 @@ import {
 } from './plugins/index.js';
 import { mergePlugins } from './utils';
 
-const BUNDLE_VARIANTS = ['.js', '.min.js', '.debug.min.js'];
+const BUNDLE_VARIANTS = [/**'.js', */'.min.js', '.debug.min.js'];
 
 export function makeBaseBundleConfig(options) {
   const { bundleType, entrypoints, jsVersion, licenseTitle, outputFileBase, packageSpecificConfig } = options;
@@ -104,7 +104,7 @@ export function makeBaseBundleConfig(options) {
       // a file extension will be added to this base value when we specify either a minified or non-minified build
       entryFileNames: outputFileBase,
       dir: 'build',
-      sourcemap: true,
+      sourcemap: false,
       strict: false,
       esModule: false,
     },
