@@ -13,16 +13,16 @@ targets.forEach(jsVersion => {
     bundleType: 'standalone',
     entrypoints: ['src/index.bundle.ts'],
     jsVersion,
-    licenseTitle: '@sentry/browser',
-    outputFileBase: () => `bundles/sentry-browser${jsVersion === 'es5' ? '.es5' : ''}`,
+    licenseTitle: '@sentry/vue',
+    outputFileBase: () => `bundles/sentry-vue${jsVersion === 'es5' ? '.es5' : ''}`,
   });
 
   const tracingBaseBundleConfig = makeBaseBundleConfig({
     bundleType: 'standalone',
     entrypoints: ['src/index.bundle.tracing.ts'],
     jsVersion,
-    licenseTitle: '@sentry/browser & @sentry/tracing',
-    outputFileBase: () => `bundles/sentry-browser.tracing${jsVersion === 'es5' ? '.es5' : ''}`,
+    licenseTitle: '@sentry/vue & @sentry/tracing',
+    outputFileBase: () => `bundles/sentry-vue.tracing${jsVersion === 'es5' ? '.es5' : ''}`,
   });
 
   builds.push(...makeBundleConfigVariants(baseBundleConfig), ...makeBundleConfigVariants(tracingBaseBundleConfig));
@@ -34,16 +34,16 @@ if (targets.includes('es6')) {
     bundleType: 'standalone',
     entrypoints: ['src/index.bundle.replay.ts'],
     jsVersion: 'es6',
-    licenseTitle: '@sentry/browser & @sentry/replay',
-    outputFileBase: () => 'bundles/sentry-browser.replay',
+    licenseTitle: '@sentry/vue & @sentry/replay',
+    outputFileBase: () => 'bundles/sentry-vue.replay',
   });
 
   const tracingReplayBaseBundleConfig = makeBaseBundleConfig({
     bundleType: 'standalone',
     entrypoints: ['src/index.bundle.tracing.replay.ts'],
     jsVersion: 'es6',
-    licenseTitle: '@sentry/browser & @sentry/tracing & @sentry/replay',
-    outputFileBase: () => 'bundles/sentry-browser.tracing.replay',
+    licenseTitle: '@sentry/vue & @sentry/tracing & @sentry/replay',
+    outputFileBase: () => 'bundles/sentry-vue.tracing.replay',
   });
 
   builds.push(

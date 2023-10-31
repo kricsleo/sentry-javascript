@@ -23,6 +23,7 @@
     "link:yarn": "lerna exec yarn link",
     "lint": "lerna run lint",
     "lint:eslint": "lerna run lint:eslint",
+    "size:check": "lerna run size:check",
     "validate:es5": "lerna run validate:es5",
     "postpublish": "lerna run --stream --concurrency 1 postpublish",
     "test": "lerna run --ignore \"@sentry-internal/{browser-integration-tests,e2e-tests,integration-shims,node-integration-tests,overhead-metrics}\" test",
